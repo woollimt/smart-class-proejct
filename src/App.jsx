@@ -588,7 +588,7 @@ const AuthScreen = ({ view, onChangeView, onLogin, onRegister, availableClasses 
 
           {view === 'login' && (
             <div className="mt-8 pt-6 border-t text-xs text-gray-400 text-center">
-              <p>테스트 계정 (학생): student1 / 123</p>
+              <p>인스타그램 @woollim_t</p>
             </div>
           )}
         </div>
