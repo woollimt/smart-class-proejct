@@ -1875,59 +1875,71 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans text-gray-800">
-      <header className="bg-white border-b px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-10">
-        {/* 헤더 로고 부분 */}
-        <div className="flex items-center gap-3">
+      {/* --- 수정된 헤더 시작 (모바일 최적화 적용) --- */}
+      <header className="bg-white border-b px-4 py-3 md:px-6 md:py-4 flex justify-between items-center shadow-sm sticky top-0 z-10">
+        {/* 왼쪽: 로고 및 제목 */}
+        <div className="flex items-center gap-2 md:gap-3">
           <img
             src="유진T 로고 용량 다운.jpg"
             alt="유진T 로고"
-            className="h-10 w-auto object-contain"
+            className="h-8 w-auto md:h-10 object-contain bg-white rounded-md"
             onError={(e) => {
               e.target.style.display = 'none';
               e.target.nextSibling.style.display = 'block';
             }}
           />
           <BookOpen className="text-blue-600 w-6 h-6 hidden" />
-          <h1 className="text-xl font-bold text-gray-900">유진T의 스마트 클래스</h1>
+          {/* 모바일: 글씨 작게 & 두 줄 / PC: 크게 & 한 줄 */}
+          <h1 className="text-sm md:text-xl font-bold text-gray-900 leading-tight">
+            유진T의<br className="md:hidden" /> 스마트 클래스
+          </h1>
         </div>
 
-        {/* 우측 사용자 정보 & 로그아웃 */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-3 text-sm text-gray-600 bg-gray-100 px-4 py-1.5 rounded-full">
+        {/* 오른쪽: 사용자 정보 & 로그아웃 */}
+        <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-100 px-2 py-1 md:px-4 md:py-1.5 rounded-full">
             {currentUser.role === 'student' ? (
               <button
                 onClick={() => setShowCharacterModal(true)}
-                className="text-2xl hover:scale-110 transition-transform cursor-pointer -ml-1 mr-1"
+                className="text-xl md:text-2xl hover:scale-110 transition-transform cursor-pointer"
               >
                 {currentUser.character}
               </button>
-            ) : <User className="w-5 h-5 text-blue-600" />}
+            ) : <User className="w-4 h-4 md:w-5 md:h-5 text-blue-600" />}
 
             <div className="flex flex-col md:flex-row md:items-center md:gap-2 leading-tight">
-              <span><span className="font-bold text-gray-900">{currentUser.name}</span>님</span>
+              {/* 이름은 항상 표시하되 모바일은 작게 */}
+              <span><span className="font-bold text-gray-900 text-sm md:text-base">{currentUser.name}</span></span>
+
+              {/* 모바일에서는 공간 확보를 위해 '구분선'과 '반 정보' 숨김 */}
               <span className="text-xs text-gray-400 hidden md:inline">|</span>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 hidden md:inline">
                 {currentUser.role === 'teacher' ? '선생님' : `${currentUser.class_name || '학생'}`}
               </span>
             </div>
 
             {currentUser.role === 'student' && (
-              <div className="flex gap-2 ml-2">
-                <div className="px-2 py-0.5 rounded text-xs font-bold flex items-center gap-1 bg-yellow-100 text-yellow-700">
+              <div className="flex gap-1 ml-1">
+                {/* 상점 뱃지도 모바일에서는 조금 작게 */}
+                <div className="px-1.5 py-0.5 rounded text-[10px] md:text-xs font-bold flex items-center gap-0.5 bg-yellow-100 text-yellow-700">
                   <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
-                  {currentUser.reward_points}점
+                  {currentUser.reward_points}
                 </div>
               </div>
             )}
           </div>
+
           <button
             onClick={logout}
             className="text-gray-500 hover:text-red-500 transition-colors flex items-center gap-1 text-sm font-medium"
           >
-            <LogOut className="w-4 h-4" /> 로그아웃
+            <LogOut className="w-4 h-4 md:w-5 md:h-5" />
+            {/* 모바일에서는 '로그아웃' 글자 숨기고 아이콘만 표시 */}
+            <span className="hidden md:inline">로그아웃</span>
           </button>
         </div>
       </header>
+      {/* --- 수정된 헤더 끝 --- */}
 
       <main className="flex-1 max-w-5xl mx-auto w-full p-6">
         {currentUser.role === 'teacher' ? (
